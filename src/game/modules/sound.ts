@@ -1,9 +1,9 @@
 class AudioManager {
-  audioList: Map<any, any>;
-  playingList: Map<any, any>;
-  bgmList: Map<any, any>;
-  muted: { bgm: string; sound: string; };
-  playingBgm: { lastKey: string; key: string; ctx: any; };
+  private audioList: Map<any, any>
+  private playingList: Map<any, any>
+  private bgmList: Map<any, any>
+  private muted: { bgm: string; sound: string; }
+  private playingBgm: { lastKey: string; key: string; ctx: any; }
   constructor() {
     this.audioList = new Map();
     this.playingList = new Map();

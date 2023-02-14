@@ -3,5 +3,4 @@ wx.$store = {
   userInfo: null,
   openId: null,
   ready: false,
-  CLOUD_ENV: ''
 };

@@ -17,6 +17,7 @@ interface Window {
   font: string
   interaction: Promise<wx.IRect>
   pixiUtil: PixiUtil
+  CLOUD_ENV: string
 }
 
 interface IScene {

@@ -1,5 +1,5 @@
 import { stage, screen, monitor } from '../core';
-import PIXI from 'pixi.js'
+
 
 export default {
   show(opt = {}) {

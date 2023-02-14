@@ -36,6 +36,8 @@ export default {
       text.text = `${~~(e.progress)}%`;
     });
     loader.add('bg', 'static/textures/bg.png');
+    // TODO: load texture file
+    // loader.add('static/texture/zero.json')
     await this.load();
     const bg = pixiUtil.genSprite('bg');
     bg.width = screen.width;
@@ -44,35 +46,32 @@ export default {
     this.container.addChild(text);
 
     Object.entries(pixiUtil.imgList).forEach(([k, v]) => loader.add(k, v));
-    wx.showLoading({
-      title: '加载中',
-    });
+    // wx.showLoading({
+    //   title: '加载中',
+    // });
+    
     await Promise.all([
       this.load(),
-      (async () => {
-        const { OPENID } = await wx.$cloud.getWXContext();
-        wx.$store.openId = OPENID;
-      })(),
-      Promise.all(
-        [
-          { key: 'bgm', src: 'http://bearfile.codebear.cn/jump/bgm2.mp3' }
-        ].map(async item => {
-          await wx.$audio.loadBgm(item.key, item.src);
-        })),
-      Promise.all([
-        { key: 'coutdown', src: 'static/sounds/coutdown.mp3' },
-        { key: 'coutdown_end', src: 'static/sounds/coutdown_end.mp3' },
-        { key: 'tap', src: 'static/sounds/jump.mp3' },
-        { key: 'score', src: 'static/sounds/score.mp3' },
-        { key: 'shielding', src: 'static/sounds/shielding.mp3' },
-        { key: 'fail', src: 'static/sounds/fail.mp3' }
-      ].map(async item => {
-        await wx.$audio.load(item.key, item.src);
-      }))
+      // (async () => {
+      //   const res = await wx.$cloud.getWXContext();
+      //   wx.$store.openId = res.openid;
+      // })(),
+      // wx.$audio.loadBgm('bgm', 'http://bearfile.codebear.cn/jump/bgm2.mp3'),
+      // Promise.all([
+      //   { key: 'coutdown', src: 'static/sounds/coutdown.mp3' },
+      //   { key: 'coutdown_end', src: 'static/sounds/coutdown_end.mp3' },
+      //   { key: 'tap', src: 'static/sounds/jump.mp3' },
+      //   { key: 'score', src: 'static/sounds/score.mp3' },
+      //   { key: 'shielding', src: 'static/sounds/shielding.mp3' },
+      //   { key: 'fail', src: 'static/sounds/fail.mp3' }
+      // ].map(async item => {
+      //   await wx.$audio.load(item.key, item.src);
+      // }))
     ]);
     this.container.removeChild(text);
+    
     const info = await this.getUserInfo();
-    wx.hideLoading();
+    // wx.hideLoading();
     if (!info) {
       let button = wx.createUserInfoButton({
         type: 'image',

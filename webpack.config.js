@@ -10,9 +10,12 @@ const isProd = process.env.NODE_ENV === "production";
 module.exports = {
   entry: {
     game: [
-      "@iro/wechat-adapter", 
+      // path.resolve(__dirname, 'src/game/libs/weapp-adapter'),
       path.resolve(__dirname, "src/game/app.ts")
     ],
+    'openDataContext/index': [
+      path.resolve(__dirname, 'src/openDataContext/index')
+    ]
   },
 
   output: {
@@ -34,9 +37,14 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
-        use: ["babel-loader"],
-        exclude: /node_modules/,
+        test: /\.ts$/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            cacheDirectory: true
+          }
+        },
+        exclude: /node_modules/
       },
       {
         test: /\.mjs$/,
@@ -53,14 +61,13 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new webpack.ProvidePlugin({
-      dayjs: "dayjs",
       PIXI: "pixi.js",
     }),
     new CopyWebpackPlugin([
       { from: "src/cloud", to: "../cloud" },
       { from: "src/project.config.json", to: "../project.config.json" },
       { from: "src/game.json", to: "game.json" },
-      { from: "src/static/dist", to: "static" },
+      { from: "src/static", to: "static" },
     ]),
     new ProgressBarPlugin(),
   ],

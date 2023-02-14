@@ -1,17 +1,12 @@
 module.exports = {
-  presets: [["@babel/env", { useBuiltIns: "usage", corejs: 3 }]],
+  presets: ["@babel/typescript", "@babel/env"],
   plugins: [
-    "@babel/syntax-dynamic-import",
-    "@babel/proposal-class-properties",
-    "@babel/proposal-private-methods",
-    "@babel/proposal-optional-chaining",
-    "@babel/proposal-export-default-from",
-    "@babel/proposal-export-namespace-from",
+    "@babel/plugin-proposal-class-properties",
     [
       "@babel/transform-runtime",
       {
         corejs: 3,
-        helpers: false,
+        helpers: true,
         regenerator: true,
         useESModules: true,
       },

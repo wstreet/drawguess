@@ -6,7 +6,7 @@ interface Point {
 /**
  * 画板
  */
-export default class Draw {
+export default class Draw extends PIXI.DisplayObject {
   private canvas: WechatMinigame.Canvas
   private ctx: CanvasRenderingContext2D
   private startPoint: Point | undefined
@@ -16,6 +16,7 @@ export default class Draw {
   private restore: ImageData[] = []
 
   constructor() {
+    super()
     this.canvas = wx.createCanvas()
     this.ctx = this.canvas.getContext("2d")
 

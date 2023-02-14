@@ -1,3 +1,4 @@
+import '@iro/wechat-adapter';
 import './utils/index';
 import './utils/pixiUtil';
 import './modules/store';
@@ -16,6 +17,7 @@ const initRouter = () => {
   }
   monitor
     .on('scene:go', (name, opt = {}) => {
+      console.log('page:', name)
       switch (name) {
         case 'preload': {
           pointer = preload;
@@ -38,6 +40,7 @@ const initRouter = () => {
 };
 
 wx.onShow(info => {
+  wx.cloud.init({ env: 'cloud1-9gr5cd4babd2ab94' });
   monitor.emit('wx:show', info);
   wx.$store.ready && monitor.emit('wx:onAudioInterruptionEnd');
   initRouter();
