@@ -58,23 +58,23 @@ export default class Player extends PIXI.Container {
       const bg = pixiUtil.genSprite('inviteUser')
       this.addChild(bg)
     } else {
-      const playerContainer = new PIXI.Container()
-      this.addChild(playerContainer)
+
       const bg = PIXI.Sprite.from(this.#userInfo.headimage)
-      playerContainer.addChild(bg)
+      this.addChild(bg)
       const name = new PIXI.Text(this.#userInfo.nickName, {
         fontFamily: wx.$store.font,
         fontSize: 12,
         fill: "black",
       });
       
-      playerContainer.addChild(name)
+      this.addChild(name)
 
       const score = new PIXI.Text(String(this.#score), {
         fontFamily: wx.$store.font,
         fontSize: 12,
         fill: "black",
       });
+      this.addChild(score)
     }
   }
 
