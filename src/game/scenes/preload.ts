@@ -33,6 +33,7 @@ export default {
     text.y = screen.height / 2;
 
     loader.onProgress.add(e => {
+      console.log(e.progress)
       text.text = `${~~(e.progress)}%`;
     });
     loader.add('bg', 'static/textures/bg.png');
@@ -46,9 +47,9 @@ export default {
     this.container.addChild(text);
 
     Object.entries(pixiUtil.imgList).forEach(([k, v]) => loader.add(k, v));
-    // wx.showLoading({
-    //   title: '加载中',
-    // });
+    wx.showLoading({
+      title: '加载中',
+    });
     
     await Promise.all([
       this.load(),
@@ -71,7 +72,7 @@ export default {
     this.container.removeChild(text);
     
     const info = await this.getUserInfo();
-    // wx.hideLoading();
+    wx.hideLoading();
     if (!info) {
       let button = wx.createUserInfoButton({
         type: 'image',

@@ -1,5 +1,6 @@
 import { stage, screen, monitor } from '../core';
 
+
 export default {
   show(opt = {}) {
     this.init();
@@ -14,7 +15,6 @@ export default {
 
     this.container = new PIXI.Container();
     this.container.interactive = true;
-
     stage.addChild(this.container);
 
     const bg = pixiUtil.genSprite('bg');

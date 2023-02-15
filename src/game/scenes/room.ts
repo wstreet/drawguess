@@ -1,4 +1,7 @@
 import { stage, screen, monitor } from '../core';
+import TextInput from 'pixi-text-input'
+import Draw from '../base/draw'
+import Player from '../base/player'
 
 
 export default {
@@ -81,6 +84,38 @@ export default {
       monitor.emit('muted:bgm', !wx.$audio.muted.bgm);
       musicIcon.texture = pixiUtil.getTexture(wx.$audio.muted.bgm ? 'btn_music_close' : 'btn_music');
     });
+    // 输入框
+    const input = new TextInput({
+      input: { fontSize: '25px' },
+      box: { fill: 0xEEEEEE }
+    })
+    input.x = 0
+    input.y = screen.height - 20
+    input.width = screen.width - 20
+    input.height = 20
+    input.placeholder = '请输入消息'
+    // set input.text = 'xxx' 
+    // get input.text
+    stage.addChild(input)
+
+    // 画板
+    const draw = new Draw({
+      width: screen.width,
+      height: 300
+    })
+    draw.x = 0
+    draw.y = 0
+    draw.width = screen.width
+    draw.height = screen.height / 3
+    stage.addChild(draw)
+
+    // 
+    for (let idx = 0; idx < 6; idx++) {// 邀请
+      const player = new Player({});
+      player.x = (screen.width / 6) * idx
+      player.y = 300
+      stage.addChild(player)
+    }
   },
   update() {
     if (!this.showRanking) {
