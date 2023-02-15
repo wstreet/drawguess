@@ -21,7 +21,7 @@ export default class Player extends PIXI.Container {
       this.#isEmpty = false
     }
 
-    this.render()
+    this.init()
   }
 
   /**
@@ -53,7 +53,7 @@ export default class Player extends PIXI.Container {
 
   }
 
-  public render() {
+  public init() {
     if (this.#isEmpty) {
       const bg = pixiUtil.genSprite('inviteUser')
       this.addChild(bg)

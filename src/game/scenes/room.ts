@@ -2,6 +2,7 @@ import { stage, screen, monitor } from '../core';
 import TextInput from 'pixi-text-input'
 import Draw from '../base/draw'
 import Player from '../base/player'
+import Menu from '../base/menu';
 
 
 export default {
@@ -18,7 +19,6 @@ export default {
 
     this.container = new PIXI.Container();
     this.container.interactive = true;
-
     stage.addChild(this.container);
 
     const bg = pixiUtil.genSprite('bg');
@@ -26,11 +26,36 @@ export default {
     bg.height = screen.height;
     this.container.addChild(bg);
 
-    const logo = pixiUtil.genSprite('logo');
-    logo.x = screen.width / 2;
-    logo.y = screen.height / 2 - 150;
-    logo.anchor.set(0.5, 0.5);
-    this.container.addChild(logo);
+    // 菜单
+    const menuBtn = pixiUtil.genSprite('menu');
+    menuBtn.interactive = true;
+    menuBtn.x = 0;
+    menuBtn.y = 0;
+    this.container.addChild(menuBtn);
+    let isOpen = false
+    let menuList
+    menuBtn.on('tap', (e) => {
+      if (isOpen) {
+        this.removeChild(menuList)
+        isOpen = !isOpen
+        return
+      }
+      menuList = new Menu({
+        menus: [
+          {
+            text: '关闭',
+            key: 'close'
+          }
+        ]
+      })
+      menuList.on('tap', (e) => {
+        console.log(e);
+      })
+      this.addChild(menuList)
+      isOpen = true
+      
+    });
+    
 
     const start = pixiUtil.genSprite('btn_start');
     start.x = screen.width / 2;
