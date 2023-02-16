@@ -10,7 +10,6 @@ const isProd = process.env.NODE_ENV === "production";
 module.exports = {
   entry: {
     game: [
-      // path.resolve(__dirname, 'src/game/libs/weapp-adapter'),
       path.resolve(__dirname, "src/game/app.ts")
     ],
     'openDataContext/index': [

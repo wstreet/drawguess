@@ -37,7 +37,7 @@ export default class Draw extends PIXI.Container {
 
   private addEvent() {
     this.#graphics
-    .on('pointerdown', this.touchStart.bind(this))
+    .on('pointerdown', this.touchStart.bind(this)) // TODO:  not work
     .on('pointermove', this.touchMove.bind(this))
     .on('pointerup', this.touchEnd.bind(this))
   }
@@ -45,22 +45,17 @@ export default class Draw extends PIXI.Container {
    * 接触屏幕
    * @param e 
    */
-  private touchStart(e: TouchEvent) {
+  private touchStart(e) {
     this.#painting = true
-    this.#startPoint = {
-      x: e.touches[0].clientX,
-      y: e.touches[0].clientY
-    }
+    this.#startPoint = e.data.global
   }
   /**
    * 开始画线
    * @param e 
    */
-  private touchMove(e: TouchEvent) {
-    const point = {
-      x: e.touches[0].clientX,
-      y: e.touches[0].clientY
-    }
+  private touchMove(e) {
+    const point = e.data.global
+    debugger
     if (this.#painting) {
       this.drawLine(this.#startPoint!, point)
     }
@@ -70,7 +65,7 @@ export default class Draw extends PIXI.Container {
    * 离开屏幕
    * @param e 
    */
-  private touchEnd(e: TouchEvent) {
+  private touchEnd(e) {
     this.#painting = false
     this.#startPoint = undefined
     this.#restore.push(

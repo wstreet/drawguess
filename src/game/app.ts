@@ -1,4 +1,7 @@
-import '@iro/wechat-adapter';
+// import '@iro/wechat-adapter';
+import './libs/weapp-adapter'
+import './libs/document-adapter'
+import './libs/PIXI.input'
 import './utils/index';
 import './utils/pixiUtil';
 import './modules/store';

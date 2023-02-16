@@ -37,7 +37,7 @@ export default {
     start.interactive = true;
     start.once('tap', (e) => {
       this.hide();
-      monitor.emit('scene:go', 'game');
+      monitor.emit('scene:go', 'room');
     });
 
     const guide = pixiUtil.genSprite('btn_guide');
@@ -49,7 +49,7 @@ export default {
     guide.interactive = true;
     guide.once('tap', (e) => {
       this.hide();
-      monitor.emit('scene:go', 'game', {
+      monitor.emit('scene:go', 'room', {
         guide: true
       });
     });
@@ -69,17 +69,17 @@ export default {
       });
     });
 
-    const musicIcon = pixiUtil.genSprite(wx.$audio.muted.bgm ? 'btn_music_close' : 'btn_music');
-    musicIcon.anchor.set(0.5, 0.5);
-    musicIcon.scale.x = musicIcon.scale.y = 0.7;
-    musicIcon.x = screen.width / 2;
-    musicIcon.y = start.y - 150;
-    this.container.addChild(musicIcon);
-    musicIcon.interactive = true;
-    musicIcon.on('tap', (e) => {
-      monitor.emit('muted:bgm', !wx.$audio.muted.bgm);
-      musicIcon.texture = pixiUtil.getTexture(wx.$audio.muted.bgm ? 'btn_music_close' : 'btn_music');
-    });
+    // const musicIcon = pixiUtil.genSprite(wx.$audio.muted.bgm ? 'btn_music_close' : 'btn_music');
+    // musicIcon.anchor.set(0.5, 0.5);
+    // musicIcon.scale.x = musicIcon.scale.y = 0.7;
+    // musicIcon.x = screen.width / 2;
+    // musicIcon.y = start.y - 150;
+    // this.container.addChild(musicIcon);
+    // musicIcon.interactive = true;
+    // musicIcon.on('tap', (e) => {
+    //   monitor.emit('muted:bgm', !wx.$audio.muted.bgm);
+    //   musicIcon.texture = pixiUtil.getTexture(wx.$audio.muted.bgm ? 'btn_music_close' : 'btn_music');
+    // });
   },
   update() {
     if (!this.showRanking) {

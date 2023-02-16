@@ -18,6 +18,8 @@ const pixiUtil = {
         'logo': 'static/textures/logo.png',
         'btn_start': 'static/textures/btn_start.png',
         'btn_guide': 'static/textures/btn_guide.png',
+        'menu': 'static/textures/menu.png',
+        'inviteUser': 'static/textures/inviteUser.png',
         // 'barrier': 'static/textures/barrier.png',
         // 'guide': 'static/textures/guide.png',
         // 'block': 'static/textures/block.png',

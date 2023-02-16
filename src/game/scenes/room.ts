@@ -1,5 +1,5 @@
 import { stage, screen, monitor } from '../core';
-import TextInput from 'pixi-text-input'
+// import 'pixi-text-input'
 import Draw from '../base/draw'
 import Player from '../base/player'
 import Menu from '../base/menu';
@@ -36,7 +36,7 @@ export default {
     let menuList
     menuBtn.on('tap', (e) => {
       if (isOpen) {
-        this.removeChild(menuList)
+        this.container.removeChild(menuList)
         isOpen = !isOpen
         return
       }
@@ -51,77 +51,39 @@ export default {
       menuList.on('tap', (e) => {
         console.log(e);
       })
-      this.addChild(menuList)
+      this.container.addChild(menuList)
       isOpen = true
       
     });
-    
-
-    const start = pixiUtil.genSprite('btn_start');
-    start.x = screen.width / 2;
-    start.y = screen.height / 2 + 300;
-    start.anchor.set(0.5, 0.5);
-    this.container.addChild(start);
-
-    start.interactive = true;
-    start.once('tap', (e) => {
-      this.hide();
-      monitor.emit('scene:go', 'game');
-    });
-
-    const guide = pixiUtil.genSprite('btn_guide');
-    guide.x = screen.width / 2;
-    guide.y = start.y + start.height + 50;
-    guide.anchor.set(0.5, 0.5);
-    this.container.addChild(guide);
-
-    guide.interactive = true;
-    guide.once('tap', (e) => {
-      this.hide();
-      monitor.emit('scene:go', 'game', {
-        guide: true
-      });
-    });
-
-    const toolInfo = pixiUtil.genSprite('btn_tool_info');
-    toolInfo.x = screen.width / 2;
-    toolInfo.y = guide.y + guide.height + 50;
-    toolInfo.anchor.set(0.5, 0.5);
-    this.container.addChild(toolInfo);
-
-    toolInfo.interactive = true;
-    toolInfo.on('tap', (e) => {
-      wx.showModal({
-        title: '提示',
-        content: '敬请期待...',
-        showCancel: false
-      });
-    });
-
-    const musicIcon = pixiUtil.genSprite(wx.$audio.muted.bgm ? 'btn_music_close' : 'btn_music');
-    musicIcon.anchor.set(0.5, 0.5);
-    musicIcon.scale.x = musicIcon.scale.y = 0.7;
-    musicIcon.x = screen.width / 2;
-    musicIcon.y = start.y - 150;
-    this.container.addChild(musicIcon);
-    musicIcon.interactive = true;
-    musicIcon.on('tap', (e) => {
-      monitor.emit('muted:bgm', !wx.$audio.muted.bgm);
-      musicIcon.texture = pixiUtil.getTexture(wx.$audio.muted.bgm ? 'btn_music_close' : 'btn_music');
-    });
+  
     // 输入框
-    const input = new TextInput({
+    // @ts-ignore
+    const input = new PIXI.TextInput({
       input: { fontSize: '25px' },
       box: { fill: 0xEEEEEE }
     })
+    
     input.x = 0
-    input.y = screen.height - 20
+    input.y = 0
     input.width = screen.width - 20
     input.height = 20
     input.placeholder = '请输入消息'
-    // set input.text = 'xxx' 
-    // get input.text
-    stage.addChild(input)
+    input.text = 'xxx' 
+    this.container.addChild(input)
+
+    const send = new PIXI.Text('发送', {
+      fill: 0x000000
+    })
+    send.interactive = true
+    send.x = screen.width - 100
+    send.y = screen.height - 100
+    this.container.addChild(send)
+    send.on('tap', e => {
+      const sendMsg = input.text
+      console.log('sendMsg', sendMsg)
+      input.text = ''
+    })
+
 
     // 画板
     const draw = new Draw({
@@ -131,15 +93,15 @@ export default {
     draw.x = 0
     draw.y = 0
     draw.width = screen.width
-    draw.height = screen.height / 3
-    stage.addChild(draw)
+    draw.height = screen.height / 2
+    this.container.addChild(draw)
 
     // 
     for (let idx = 0; idx < 6; idx++) {// 邀请
       const player = new Player({});
       player.x = (screen.width / 6) * idx
-      player.y = 300
-      stage.addChild(player)
+      player.y = screen.height / 2 + 50
+      this.container.addChild(player)
     }
   },
   update() {

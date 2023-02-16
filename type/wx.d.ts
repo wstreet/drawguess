@@ -1,7 +1,7 @@
 
 
 declare namespace WechatMinigame {
-  interface Wx extends WechatMinigame.Wx {
+  interface Wx {
     $store: any
     $audio: any
     $cloud: any
