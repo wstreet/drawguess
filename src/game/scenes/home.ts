@@ -24,50 +24,83 @@ export default {
 
     const logo = pixiUtil.genSprite('logo');
     logo.x = screen.width / 2;
-    logo.y = screen.height / 2 - 150;
+    logo.y = screen.height / 2 - 450;
     logo.anchor.set(0.5, 0.5);
     this.container.addChild(logo);
 
-    const start = pixiUtil.genSprite('btn_start');
-    start.x = screen.width / 2;
-    start.y = screen.height / 2 + 300;
-    start.anchor.set(0.5, 0.5);
-    this.container.addChild(start);
+    const quick_start = pixiUtil.genSprite('quick_start');
+    quick_start.x = screen.width / 2;
+    quick_start.y = screen.height / 2 - 150;
+    quick_start.anchor.set(0.5, 0.5);
+    this.container.addChild(quick_start);
 
-    start.interactive = true;
-    start.once('tap', (e) => {
+    quick_start.interactive = true;
+    quick_start.on('pointerdown', (e) => {
+      console.log(e)
       this.hide();
       monitor.emit('scene:go', 'room');
     });
 
-    const guide = pixiUtil.genSprite('btn_guide');
-    guide.x = screen.width / 2;
-    guide.y = start.y + start.height + 50;
-    guide.anchor.set(0.5, 0.5);
-    this.container.addChild(guide);
+    const create_public = pixiUtil.genSprite('create_public');
+    create_public.x = screen.width / 2 - 130;
+    create_public.y = screen.height / 2;
+    create_public.anchor.set(0.5, 0.5);
+    this.container.addChild(create_public);
 
-    guide.interactive = true;
-    guide.once('tap', (e) => {
+    create_public.interactive = true;
+    create_public.on('tap', (e) => {
       this.hide();
-      monitor.emit('scene:go', 'room', {
-        guide: true
-      });
+      monitor.emit('scene:go', 'room');
     });
 
-    const toolInfo = pixiUtil.genSprite('btn_tool_info');
-    toolInfo.x = screen.width / 2;
-    toolInfo.y = guide.y + guide.height + 50;
-    toolInfo.anchor.set(0.5, 0.5);
-    this.container.addChild(toolInfo);
+    create_public.on('pointerup', ev => {
+      console.log(ev)
+    })
 
-    toolInfo.interactive = true;
-    toolInfo.on('tap', (e) => {
-      wx.showModal({
-        title: '提示',
-        content: '敬请期待...',
-        showCancel: false
-      });
+
+    const private_room = pixiUtil.genSprite('private_room');
+    private_room.x = screen.width / 2 + 150;
+    private_room.y = screen.height / 2;
+    private_room.anchor.set(0.5, 0.5);
+    this.container.addChild(private_room);
+
+    private_room.interactive = true;
+    
+    private_room.on('tap', (e) => {
+      this.hide();
+      monitor.emit('scene:go', 'room');
     });
+
+    // 
+
+    // const guide = pixiUtil.genSprite('btn_guide');
+    // guide.x = screen.width / 2;
+    // guide.y = start.y + start.height + 50;
+    // guide.anchor.set(0.5, 0.5);
+    // this.container.addChild(guide);
+
+    // guide.interactive = true;
+    // guide.once('tap', (e) => {
+    //   this.hide();
+    //   monitor.emit('scene:go', 'room', {
+    //     guide: true
+    //   });
+    // });
+
+    // const toolInfo = pixiUtil.genSprite('btn_tool_info');
+    // toolInfo.x = screen.width / 2;
+    // toolInfo.y = guide.y + guide.height + 50;
+    // toolInfo.anchor.set(0.5, 0.5);
+    // this.container.addChild(toolInfo);
+
+    // toolInfo.interactive = true;
+    // toolInfo.on('tap', (e) => {
+    //   wx.showModal({
+    //     title: '提示',
+    //     content: '敬请期待...',
+    //     showCancel: false
+    //   });
+    // });
 
     // const musicIcon = pixiUtil.genSprite(wx.$audio.muted.bgm ? 'btn_music_close' : 'btn_music');
     // musicIcon.anchor.set(0.5, 0.5);

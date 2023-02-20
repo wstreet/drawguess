@@ -21,7 +21,6 @@
     "@babel/runtime-corejs3": "^7.12.5",
     "@iro/interaction": "^1.2.6",
     "@iro/wechat-adapter": "^0.1.4",
-    "@pixi/unsafe-eval": "^5.2.1",
     "babel-eslint": "^11.0.0-beta.0",
     "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^3.0.0",
@@ -37,6 +36,7 @@
   },
   "dependencies": {
     "pixi-text-input": "^1.0.6",
-    "pixi.js": "5.2.1"
+    "@pixi/unsafe-eval": "6.5.9",
+    "pixi.js": "6.5.9"
   }
 }

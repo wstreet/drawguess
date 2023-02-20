@@ -20,6 +20,10 @@ const pixiUtil = {
         'btn_guide': 'static/textures/btn_guide.png',
         'menu': 'static/textures/menu.png',
         'inviteUser': 'static/textures/inviteUser.png',
+        'quick_start': 'static/textures/quick_start.png',
+        'create_public': 'static/textures/create_public.png',
+        'private_room': 'static/textures/private_room.png',
+        
         // 'barrier': 'static/textures/barrier.png',
         // 'guide': 'static/textures/guide.png',
         // 'block': 'static/textures/block.png',

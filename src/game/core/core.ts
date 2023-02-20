@@ -22,6 +22,9 @@ ticker.add(() => renderer.render(stage), null, PIXI.UPDATE_PRIORITY.UTILITY)
 
 renderer.plugins.accessibility.destroy()
 renderer.plugins.interaction.mapPositionToPoint = (point, x, y) => point.set(x * pixelRatio, y * pixelRatio)
+// renderer.plugins.interaction.on('pointerdown', ev => {
+//   console.log(ev)
+// })
 
 export const screen = renderer.screen
 

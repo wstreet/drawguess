@@ -29,8 +29,10 @@ export default {
     // 菜单
     const menuBtn = pixiUtil.genSprite('menu');
     menuBtn.interactive = true;
-    menuBtn.x = 0;
-    menuBtn.y = 0;
+    menuBtn.x = 20;
+    menuBtn.y = 20;
+    menuBtn.width = 50;
+    menuBtn.height = 50;
     this.container.addChild(menuBtn);
     let isOpen = false
     let menuList
@@ -57,19 +59,9 @@ export default {
     });
   
     // 输入框
-    // @ts-ignore
-    const input = new PIXI.TextInput({
-      input: { fontSize: '25px' },
-      box: { fill: 0xEEEEEE }
-    })
     
-    input.x = 0
-    input.y = 0
-    input.width = screen.width - 20
-    input.height = 20
-    input.placeholder = '请输入消息'
-    input.text = 'xxx' 
-    this.container.addChild(input)
+ 
+
 
     const send = new PIXI.Text('发送', {
       fill: 0x000000
@@ -79,9 +71,9 @@ export default {
     send.y = screen.height - 100
     this.container.addChild(send)
     send.on('tap', e => {
-      const sendMsg = input.text
-      console.log('sendMsg', sendMsg)
-      input.text = ''
+      // const sendMsg = input.text
+      // console.log('sendMsg', sendMsg)
+      // input.text = ''
     })
 
 
@@ -99,8 +91,11 @@ export default {
     // 
     for (let idx = 0; idx < 6; idx++) {// 邀请
       const player = new Player({});
-      player.x = (screen.width / 6) * idx
+      player.x = (screen.width / 6) * idx + 30
       player.y = screen.height / 2 + 50
+      player.width = (screen.width - 100) / 6 -50
+      player.height = player.width
+      // player.anchor.set(0.5, 0.5);
       this.container.addChild(player)
     }
   },

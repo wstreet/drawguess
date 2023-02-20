@@ -1,7 +1,4 @@
-// import '@iro/wechat-adapter';
-import './libs/weapp-adapter'
-import './libs/document-adapter'
-import './libs/PIXI.input'
+import '@iro/wechat-adapter';
 import './utils/index';
 import './utils/pixiUtil';
 import './modules/store';
@@ -110,9 +107,9 @@ const createGameCenterButton = async () => {
 
   button.hide();
 
-  monitor
-    .on('scene:show', name => name === 'home' ? button.show() : button.hide())
-    .on('scene:hide', name => name === 'home' && button.hide());
+  // monitor
+  //   .on('scene:show', name => name === 'home' ? button.show() : button.hide())
+  //   .on('scene:hide', name => name === 'home' && button.hide());
 };
 
 /**

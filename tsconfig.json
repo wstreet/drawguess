@@ -20,7 +20,7 @@
       "dom",
       "esnext",
     ],
-    "types": ["minigame-api-typings", "pixi.js"],
+    "types": ["minigame-api-typings", "./node_modules/pixi.js"],
   },
   
   "include": ["src", "type"],
