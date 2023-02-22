@@ -120,6 +120,6 @@ export default {
     wx.$store.userInfo.openId = wx.$store.openId;
     wx.$open.postMessage('setSelfInfo', JSON.stringify(wx.$store.userInfo));
     this.hide();
-    monitor.emit('scene:go', 'home');
+    monitor.emit('scene:go', 'room');
   }
 };

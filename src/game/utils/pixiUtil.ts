@@ -23,6 +23,12 @@ const pixiUtil = {
         'quick_start': 'static/textures/quick_start.png',
         'create_public': 'static/textures/create_public.png',
         'private_room': 'static/textures/private_room.png',
+        'caipan': 'static/textures/caipan.png',
+        'pencil': 'static/textures/pencil.png',
+        'qianbi': 'static/textures/qianbi.png',
+        'shuaxin': 'static/textures/shuaxin.png',
+        'xiangpi': 'static/textures/xiangpi.png',
+        'xiangpica': 'static/textures/xiangpica.png',
         
         // 'barrier': 'static/textures/barrier.png',
         // 'guide': 'static/textures/guide.png',

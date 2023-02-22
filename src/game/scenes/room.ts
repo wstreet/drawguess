@@ -79,19 +79,17 @@ export default {
     // 画板
     const draw = new Draw({
       width: screen.width,
-      height: 300
+      height: screen.height * 3 / 7
     })
-    draw.x = 0
-    draw.y = 0
-    draw.width = screen.width
-    draw.height = screen.height / 2
+    draw.y = 100
+   
     this.container.addChild(draw)
 
     // 
     for (let idx = 0; idx < 6; idx++) {// 邀请
       const player = new Player({});
       player.x = (screen.width / 6) * idx + 30
-      player.y = screen.height / 2 + 50
+      player.y = screen.height / 2 + 100
       player.width = (screen.width - 100) / 6 -50
       player.height = player.width
       // player.anchor.set(0.5, 0.5);

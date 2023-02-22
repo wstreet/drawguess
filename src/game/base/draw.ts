@@ -35,7 +35,7 @@ export default class Draw extends PIXI.Container {
     const canvas = document.createElement('canvas')
     canvas.width = options.width
     canvas.height = options.height
-    const ctx = canvas.getContext('2d')
+    // const ctx = canvas.getContext('2d')
     // ctx.fillStyle = '#ffffff'
     // ctx.fillRect(0 ,0, canvas.width, canvas.height)
     this.#canvasSprite = PIXI.Sprite.from(canvas)
@@ -46,10 +46,9 @@ export default class Draw extends PIXI.Container {
     
     this.addChild(this.#graphics)
     this.addChild(this.#canvasSprite)
-
     this.addEvent()
    
-
+    this.createTool()
   }
 
   private addEvent() {
@@ -64,15 +63,14 @@ export default class Draw extends PIXI.Container {
    */
   private touchStart(e) {
     this.#painting = true
-    this.#startPoint = { x: e.x / pixelRatio, y: e.y }
+    this.#startPoint = { x: e.x, y: e.y }
   }
   /**
    * 开始画线
    * @param e 
    */
   private touchMove(e) {
-    const point = { x: e.x / pixelRatio, y: e.y }
-    console.log(point)
+    const point = { x: e.x, y: e.y }
     if (this.#painting) {
       this.drawLine(this.#startPoint!, point)
       this.#startPoint = point
@@ -136,6 +134,57 @@ export default class Draw extends PIXI.Container {
       // this.#ctx.putImageData(this.#restore[this.#restore.length - 2], 0, 0);
       this.#restore.length --;
     }
+  }
+
+  private createTool() {
+    const toolImgs = [
+      'qianbi', 'caipan', 'xiangpica', 'shuaxin'
+    ]
+    for (let i = 0; i < toolImgs.length; i++) {
+      const texture = pixiUtil.genSprite(toolImgs[i])
+      texture.width = 60
+      texture.height = 60
+      texture.x = i * 100 + 80
+      texture.y = this.#options.height
+      texture.interactive = true
+      if (i == 0) {
+        texture.on('tap', this.pencilHander.bind(this))
+      }
+      this.addChild(texture)
+    }
+  }
+
+  pencilHander() {
+    const lineWidthList = [2, 4, 8, 10]
+    const width = 60
+    const height = 60
+    for (let i = 0; i < lineWidthList.length; i++) {
+      const lineWidth = lineWidthList[i]
+      const canvas = document.createElement('canvas')
+      canvas.width = width
+      canvas.height = height
+      const ctx = canvas.getContext('2d')
+      ctx.fillStyle = this.#lineWidth == lineWidth ? '#a0c1ae' : '#9fc4cf'
+      ctx.fillRect(0 ,0, canvas.width, canvas.height)
+      ctx.fillStyle = '#000000'
+      ctx.beginPath();
+      ctx.strokeStyle = '#000000'
+      ctx.arc(width / 2, height / 2, lineWidth, 0, Math.PI * 2, false)
+      ctx.stroke();
+      ctx.fill()
+      const lineWidthSprite = PIXI.Sprite.from(canvas)
+      // @ts-ignore
+      lineWidthSprite.data = lineWidth
+      lineWidthSprite.x = i * width
+      lineWidthSprite.y = this.#options.height - height
+      lineWidthSprite.interactive = true
+      lineWidthSprite.on('tap', (e) => {
+        this.setLineWidth(e.target.data)
+      })
+      this.addChild(lineWidthSprite)
+    }
+    
+   
   }
 
 
