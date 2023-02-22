@@ -1,4 +1,4 @@
-import { stage, screen, monitor } from '../core';
+import { stage, screen, monitor, createContainer } from '../core';
 
 
 export default {
@@ -13,8 +13,7 @@ export default {
   init() {
     this.showRanking = false;
 
-    this.container = new PIXI.Container();
-    this.container.interactive = true;
+    this.container = createContainer();
     stage.addChild(this.container);
 
     const bg = pixiUtil.genSprite('bg');
@@ -32,14 +31,14 @@ export default {
     quick_start.x = screen.width / 2;
     quick_start.y = screen.height / 2 - 150;
     quick_start.anchor.set(0.5, 0.5);
-    this.container.addChild(quick_start);
-
     quick_start.interactive = true;
     quick_start.on('pointerdown', (e) => {
-      console.log(e)
       this.hide();
-      monitor.emit('scene:go', 'room');
+      monitor.emit('scene:go', 'room', {
+        type: 'quick_start'
+      });
     });
+    this.container.addChild(quick_start);
 
     const create_public = pixiUtil.genSprite('create_public');
     create_public.x = screen.width / 2 - 130;
@@ -48,31 +47,27 @@ export default {
     this.container.addChild(create_public);
 
     create_public.interactive = true;
-    create_public.on('tap', (e) => {
+    create_public.on('pointerdown', (e) => {
       this.hide();
-      monitor.emit('scene:go', 'room');
+      monitor.emit('scene:go', 'room', {
+        type: 'create_public'
+      });
     });
-
-    create_public.on('pointerup', ev => {
-      console.log(ev)
-    })
-
 
     const private_room = pixiUtil.genSprite('private_room');
     private_room.x = screen.width / 2 + 150;
     private_room.y = screen.height / 2;
     private_room.anchor.set(0.5, 0.5);
     this.container.addChild(private_room);
-
     private_room.interactive = true;
-    
-    private_room.on('tap', (e) => {
+    private_room.on('pointerdown', (e) => {
       this.hide();
-      monitor.emit('scene:go', 'room');
+      monitor.emit('scene:go', 'room', {
+        type: 'private_room'
+      });
     });
 
     // 
-
     // const guide = pixiUtil.genSprite('btn_guide');
     // guide.x = screen.width / 2;
     // guide.y = start.y + start.height + 50;

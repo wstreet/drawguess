@@ -1,4 +1,4 @@
-import { stage, screen, monitor, loader } from '../core';
+import { stage, screen, monitor, loader, createContainer } from '../core';
 
 export default {
   show(opt) {
@@ -19,8 +19,7 @@ export default {
     });
   },
   async init() {
-    this.container = new PIXI.Container();
-    this.container.interactive = true;
+    this.container = createContainer();
 
     let text = new PIXI.Text('0%', {
       fontFamily: wx.$store.font,

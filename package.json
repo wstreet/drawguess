@@ -19,8 +19,6 @@
     "@babel/preset-env": "^7.5.5",
     "@babel/preset-typescript": "^7.18.6",
     "@babel/runtime-corejs3": "^7.12.5",
-    "@iro/interaction": "^1.2.6",
-    "@iro/wechat-adapter": "^0.1.4",
     "babel-eslint": "^11.0.0-beta.0",
     "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^3.0.0",
@@ -35,8 +33,10 @@
     "webpack-cli": "^3.3.6"
   },
   "dependencies": {
-    "pixi-text-input": "^1.0.6",
-    "@pixi/unsafe-eval": "6.5.9",
-    "pixi.js": "6.5.9"
+    "@iro/interaction": "^1.3.0",
+    "@iro/wechat-adapter": "^1.2.0",
+    "@pixi/events": "^6.5.9",
+    "@pixi/unsafe-eval": "^6.5.9",
+    "pixi.js": "^6.5.9"
   }
 }

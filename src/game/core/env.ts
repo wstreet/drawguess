@@ -6,7 +6,6 @@ PIXI.settings.PREFER_ENV = PIXI.ENV.WEBGL
 PIXI.settings.PRECISION_FRAGMENT = PIXI.PRECISION.HIGH
 
 install(PIXI)
-// PIXI.Renderer.registerPlugin('interaction', Interaction)
 
 // remove default interaction extensions
 for (const x in PIXI.extensions._queue) {

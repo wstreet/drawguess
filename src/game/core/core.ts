@@ -1,14 +1,26 @@
+
+const sysInfo = wx.getSystemInfoSync()
 let {
   windowWidth: width,
   windowHeight: height,
   pixelRatio: devicePixelRatio,
-} = wx.getSystemInfoSync()
+} = sysInfo
 
 const ticker = PIXI.Ticker.shared
 const loader = PIXI.Loader.shared
-const stage = new PIXI.Container()
+function createContainer() {
+  const container = new PIXI.Container()
+  container.interactive = true;
+  container.interactiveChildren = true
+  return container
+}
+const stage = createContainer()
+
 const monitor = new PIXI.utils.EventEmitter()
 const pixelRatio = Math.min(2, devicePixelRatio)
+
+canvas.width = width * pixelRatio
+canvas.height = height * pixelRatio
 
 const renderer = new PIXI.Renderer({
   view: canvas,
@@ -18,13 +30,16 @@ const renderer = new PIXI.Renderer({
   height: height * pixelRatio,
 })
 
-ticker.add(() => renderer.render(stage), null, PIXI.UPDATE_PRIORITY.UTILITY)
+
+ticker.add(() => renderer.render(stage), null, PIXI.UPDATE_PRIORITY.NORMAL)
+
 
 renderer.plugins.accessibility.destroy()
-renderer.plugins.interaction.mapPositionToPoint = (point, x, y) => point.set(x * pixelRatio, y * pixelRatio)
-// renderer.plugins.interaction.on('pointerdown', ev => {
-//   console.log(ev)
-// })
+renderer.plugins.interaction.mapPositionToPoint = (point, x, y) => {
+  point.x = x * pixelRatio;
+  point.y = y * pixelRatio;
+};
+
 
 export const screen = renderer.screen
 
@@ -42,4 +57,5 @@ export {
   renderer,
   pixelRatio,
   devicePixelRatio,
+  createContainer
 }

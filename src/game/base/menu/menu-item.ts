@@ -18,6 +18,9 @@ export default class MenuItem extends PIXI.Container {
     const menuText = new PIXI.Text(this.menu.text, {
       fill: 0xffffff
     })
+    menuText.on('pointerdown', () => {
+      this.emit('pointerdown',this.menu)
+    })
     this.addChild(menuText)
   }
 }

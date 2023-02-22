@@ -18,12 +18,12 @@ export default class Menu extends PIXI.Container {
       const menuItem = new MenuItem(menu)
       this.addChild(menuItem)
       menuItem.y = idx * 20
-      menuItem.on('tap', this.onTap.bind(this))
+      menuItem.on('pointerdown', this.onTap.bind(this))
     })
   }
 
   private onTap(e) {
-    this.emit('tap', e)
+    this.emit('pointerdown', e)
   }
 
 

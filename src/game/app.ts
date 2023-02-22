@@ -8,6 +8,9 @@ import './modules/open';
 import { stage, ticker, monitor, screen } from './core';
 import { preload, home, room } from './scenes';
 
+// @ts-ignore
+// var WebGLRenderingContext = window.WebGLRenderingContext || {}
+
 
 let pointer = null;
 
@@ -40,7 +43,7 @@ const initRouter = () => {
 };
 
 wx.onShow(info => {
-  wx.cloud.init({ env: 'cloud1-9gr5cd4babd2ab94' });
+  // wx.cloud.init({ env: 'cloud1-9gr5cd4babd2ab94' });
   monitor.emit('wx:show', info);
   wx.$store.ready && monitor.emit('wx:onAudioInterruptionEnd');
   initRouter();

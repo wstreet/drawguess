@@ -1,4 +1,4 @@
-
+import { pixelRatio } from "../core"
 interface Point {
   x: number
   y: number
@@ -18,6 +18,7 @@ export default class Draw extends PIXI.Container {
   #color: number = 0x000000
   #lineWidth: number = 2
   #restore: PIXI.Graphics[] = []
+  #canvasSprite: PIXI.Sprite
   #options: DrawOpts = {
     width: 100,
     height: 100
@@ -25,10 +26,26 @@ export default class Draw extends PIXI.Container {
 
   constructor(options: DrawOpts) {
     super()
+    this.interactive = true
+    this.interactiveChildren = true
+
     this.#options = options
     this.#graphics = new PIXI.Graphics();
-    this.#graphics.interactive = true
+    
+    const canvas = document.createElement('canvas')
+    canvas.width = options.width
+    canvas.height = options.height
+    const ctx = canvas.getContext('2d')
+    // ctx.fillStyle = '#ffffff'
+    // ctx.fillRect(0 ,0, canvas.width, canvas.height)
+    this.#canvasSprite = PIXI.Sprite.from(canvas)
+    this.#canvasSprite.x = 0
+    this.#canvasSprite.y = 0
+    this.#canvasSprite.interactive = true
+   
+    
     this.addChild(this.#graphics)
+    this.addChild(this.#canvasSprite)
 
     this.addEvent()
    
@@ -36,8 +53,8 @@ export default class Draw extends PIXI.Container {
   }
 
   private addEvent() {
-    this.#graphics
-    .on('pointerdown', this.touchStart.bind(this)) // TODO:  not work
+    this.#canvasSprite
+    .on('pointerdown', this.touchStart.bind(this))
     .on('pointermove', this.touchMove.bind(this))
     .on('pointerup', this.touchEnd.bind(this))
   }
@@ -47,17 +64,18 @@ export default class Draw extends PIXI.Container {
    */
   private touchStart(e) {
     this.#painting = true
-    this.#startPoint = e.data.global
+    this.#startPoint = { x: e.x / pixelRatio, y: e.y }
   }
   /**
    * 开始画线
    * @param e 
    */
   private touchMove(e) {
-    const point = e.data.global
-    debugger
+    const point = { x: e.x / pixelRatio, y: e.y }
+    console.log(point)
     if (this.#painting) {
       this.drawLine(this.#startPoint!, point)
+      this.#startPoint = point
     }
 
   }
@@ -67,7 +85,7 @@ export default class Draw extends PIXI.Container {
    */
   private touchEnd(e) {
     this.#painting = false
-    this.#startPoint = undefined
+    this.#startPoint = null
     this.#restore.push(
       // this.#graphics // TODO: 
     )

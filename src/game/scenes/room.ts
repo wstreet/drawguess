@@ -1,5 +1,4 @@
-import { stage, screen, monitor } from '../core';
-// import 'pixi-text-input'
+import { stage, screen, monitor, createContainer } from '../core';
 import Draw from '../base/draw'
 import Player from '../base/player'
 import Menu from '../base/menu';
@@ -7,6 +6,7 @@ import Menu from '../base/menu';
 
 export default {
   show(opt = {}) {
+    console.log(opt)
     this.init();
     monitor.emit('scene:show', 'room');
   },
@@ -17,8 +17,7 @@ export default {
   init() {
     this.showRanking = false;
 
-    this.container = new PIXI.Container();
-    this.container.interactive = true;
+    this.container = createContainer();
     stage.addChild(this.container);
 
     const bg = pixiUtil.genSprite('bg');
