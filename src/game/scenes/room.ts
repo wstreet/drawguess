@@ -2,7 +2,7 @@ import { stage, screen, monitor, createContainer } from '../core';
 import Draw from '../base/draw'
 import Player from '../base/player'
 import Menu from '../base/menu';
-
+import Input from '../base/input';
 
 export default {
   show(opt = {}) {
@@ -58,21 +58,14 @@ export default {
     });
   
     // 输入框
-    
- 
-
-
-    const send = new PIXI.Text('发送', {
-      fill: 0x000000
+    const input = new Input({
+      width: screen.width,
+      height: 40,
     })
-    send.interactive = true
-    send.x = screen.width - 100
-    send.y = screen.height - 100
-    this.container.addChild(send)
-    send.on('tap', e => {
-      // const sendMsg = input.text
-      // console.log('sendMsg', sendMsg)
-      // input.text = ''
+    this.container.addChild(input)
+    wx.onKeyboardConfirm(() => {
+      // send api
+      input.value = ''
     })
 
 

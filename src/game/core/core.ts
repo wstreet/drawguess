@@ -19,8 +19,8 @@ const stage = createContainer()
 const monitor = new PIXI.utils.EventEmitter()
 const pixelRatio = Math.min(2, devicePixelRatio)
 
-// canvas.width = width * pixelRatio
-// canvas.height = height * pixelRatio
+canvas.width = width * pixelRatio
+canvas.height = height * pixelRatio
 
 const renderer = new PIXI.Renderer({
   view: canvas,
@@ -38,6 +38,7 @@ renderer.plugins.accessibility.destroy()
 renderer.plugins.interaction.mapPositionToPoint = (point, x, y) => {
   point.x = x * pixelRatio;
   point.y = y * pixelRatio;
+  // console.log(point)
 };
 
 

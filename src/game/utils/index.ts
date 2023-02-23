@@ -16,5 +16,14 @@ wx.$util = {
 
     return s.join('');
 
+  },
+  getColorString(color: number) {
+    let str = color.toString(16)
+    let n = 6 - str.length
+    while(n > 0) {
+      str = '0' + str
+      n--
+    }
+    return '#'+str
   }
 };
