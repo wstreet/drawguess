@@ -7,7 +7,6 @@ interface Point {
 interface DrawOpts {
   width: number
   height: number
-  padding?: number
 }
 
 enum PenStyle {
@@ -18,18 +17,17 @@ enum PenStyle {
  * 画板
  */
 export default class Draw extends PIXI.Container {
-  #graphics: PIXI.Graphics
+  #canvas: HTMLCanvasElement
+  #ctx: CanvasRenderingContext2D
   #startPoint: Point | undefined
   #painting: Boolean = false
   #color: number = 0x000000
   #lineWidth: number = 2
   #eraserWidth: number = 2
-  #restore: PIXI.Graphics[] = []
   #canvasSprite: PIXI.Sprite
   #options: DrawOpts = {
     width: 100,
-    height: 100,
-    padding: 40,
+    height: 100
   }
   #pencilGroup: PIXI.Container
   #colorlGroup: PIXI.Container
@@ -43,28 +41,28 @@ export default class Draw extends PIXI.Container {
     super()
     this.interactive = true
     this.interactiveChildren = true
-    this.y = 120
-    this.#options = Object.assign({}, this.#options, options)
-    this.init()
+    this.#options = options
+    this.initCanvas()
     this.addEvent()
+    this.createTools()
   }
-  init() {
-    this.#graphics = new PIXI.Graphics();
-    this.addChild(this.#graphics)
-
+  initCanvas() {
     const options = this.#options
     const canvas = document.createElement('canvas')
-    canvas.width = options.width - options.padding * 2
+    canvas.width = options.width
     canvas.height = options.height
     const ctx = canvas.getContext('2d')
     ctx.fillStyle = 'transparent'
     ctx.fillRect(0 ,0, canvas.width, canvas.height)
     this.#canvasSprite = PIXI.Sprite.from(canvas)
-    this.#canvasSprite.x = options.padding
+    this.#canvasSprite.x = 0
     this.#canvasSprite.y = 0
     this.#canvasSprite.interactive = true
     this.addChild(this.#canvasSprite)
-    this.createTools()
+
+    this.#canvas = canvas
+    this.#ctx = ctx
+   
   }
 
   private addEvent() {
@@ -105,9 +103,6 @@ export default class Draw extends PIXI.Container {
   private touchEnd(e) {
     this.#painting = false
     this.#startPoint = null
-    // this.#restore.push(
-    //   // this.#graphics // TODO: 
-    // )
   }
   /**
    * 画线方法
@@ -115,29 +110,25 @@ export default class Draw extends PIXI.Container {
    * @param point 
    */
   private drawLine(startPoint: Point, point: Point) {
-    this.#graphics.lineStyle(this.#lineWidth, this.#color, 1)
-    //起始位置
-    this.#graphics.moveTo(startPoint.x, startPoint.y);
-    //停止位置
-    this.#graphics.lineTo(point.x, point.y);
-    //结束绘制
-    this.#graphics.endFill()
+    this.#ctx.strokeStyle = wx.$util.getColorString(this.#color)
+    this.#ctx.lineWidth = this.#lineWidth
+    console.log(startPoint)
+    this.#ctx.beginPath();
+    this.#ctx.moveTo(startPoint.x, startPoint.y);
+    this.#ctx.lineTo(point.x, point.y);
+    this.#ctx.stroke();
+    this.#ctx.closePath();
   }
   private drawRect(startPoint: Point, point: Point) {
-    this.#graphics.beginFill(0xffffff, 1);
-    this.#graphics.lineStyle(0, 0xffffff, 1);
-    this.#graphics.drawCircle(point.x, point.y, this.#eraserWidth / 2);
-    this.#graphics.endFill();
+    // this.#graphics.drawRect()
+    // TODO:
     
   }
   /**
    * 清除画布
    */
   public clear() {
-    this.#graphics.clear()
-    // this.#restore.push(
-    //   // this.#ctx.getImageData(0, 0, canvas.width, canvas.height)
-    // )
+    this.#ctx.clearRect(0, 0, this.#options.width, this.#options.height)
   }
   /**
    * 设置画笔颜色
@@ -161,10 +152,7 @@ export default class Draw extends PIXI.Container {
    * 撤回到上一步
    */
   public undo() {
-    // if (this.#restore.length > 1) {
-    //   // this.#ctx.putImageData(this.#restore[this.#restore.length - 2], 0, 0);
-    //   this.#restore.length--;
-    // }
+
   }
 
   private createTools() {
@@ -207,7 +195,7 @@ export default class Draw extends PIXI.Container {
       canvas.width = width
       canvas.height = height
       const ctx = canvas.getContext('2d')
-      ctx.fillStyle = '#9fc4cf'
+      ctx.fillStyle = this.#lineWidth == lineWidth ? '#a0c1ae' : '#9fc4cf'
       ctx.fillRect(0, 0, canvas.width, canvas.height)
       ctx.fillStyle = '#000000'
       ctx.beginPath();
@@ -222,7 +210,6 @@ export default class Draw extends PIXI.Container {
       lineWidthSprite.y = this.#options.height - height
       lineWidthSprite.interactive = true
       lineWidthSprite.on('pointerdown', (e) => {
-        this.#penStyle = PenStyle.PENCIL
         this.setLineWidth(e.target.data)
         this.hideGroup()
       })
@@ -312,13 +299,15 @@ export default class Draw extends PIXI.Container {
       canvas.width = width
       canvas.height = height
       const ctx = canvas.getContext('2d')
-      ctx.fillStyle = '#9fc4cf'
+      ctx.fillStyle = this.#lineWidth == rectWidth ? '#a0c1ae' : '#9fc4cf'
       ctx.fillRect(0, 0, canvas.width, canvas.height)
       ctx.fillStyle = '#ffffff'
-      ctx.beginPath();
-      ctx.arc(canvas.width / 2, canvas.height / 2, rectWidth / 2, 0, Math.PI * 2, false)
-      ctx.stroke();
-      ctx.fill()
+      ctx.fillRect(
+        (canvas.width - rectWidth) / 2,
+        (canvas.height - rectWidth) / 2,
+        rectWidth,
+        rectWidth
+      )
       const eraserSprite = PIXI.Sprite.from(canvas)
       // @ts-ignore
       eraserSprite.data = rectWidth
@@ -326,7 +315,6 @@ export default class Draw extends PIXI.Container {
       eraserSprite.y = this.#options.height - height
       eraserSprite.interactive = true
       eraserSprite.on('pointerdown', (e) => {
-        this.#penStyle = PenStyle.ERASER
         this.setEraserWidth(e.target.data)
         this.hideGroup()
       })

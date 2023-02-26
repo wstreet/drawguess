@@ -9,16 +9,16 @@ interface UserInfo {
 }
 
 export default class Player extends PIXI.Container {
-  #score: number = 0
-  #options: PlayerOptions
-  #userInfo: UserInfo
-  #isEmpty: boolean = true
+  _score: number = 0
+  _options: PlayerOptions
+  _userInfo: UserInfo
+  _isEmpty: boolean = true
 
   constructor(options: PlayerOptions) {
     super()
-    this.#options = options
+    this._options = options
     if (options.userInfo) {
-      this.#isEmpty = false
+      this._isEmpty = false
     }
 
     this.init()
@@ -29,7 +29,7 @@ export default class Player extends PIXI.Container {
    * @param score 
    */
   public setScore(score) {
-    this.#score = score
+    this._score = score
   }
 
   /**
@@ -37,7 +37,7 @@ export default class Player extends PIXI.Container {
    * @returns 
    */
   public getScore(): number {
-    return this.#score
+    return this._score
   }
   /**
    * 分数累加，并返回结果
@@ -45,8 +45,8 @@ export default class Player extends PIXI.Container {
    * @returns 
    */
   public addScore(score: number = 0): number {
-    this.#score += score
-    return this.#score
+    this._score += score
+    return this._score
   }
 
   public setUserInfo() {
@@ -54,22 +54,28 @@ export default class Player extends PIXI.Container {
   }
 
   public init() {
-    if (this.#isEmpty) {
+    if (this._isEmpty) {
       const bg = pixiUtil.genSprite('inviteUser')
-      this.addChild(bg)
+      const invite = new PIXI.Text('邀请', {
+        fontFamily: wx.$store.font,
+        fontSize: 40,
+        fill: "black",
+      })
+      this.addChild(bg, invite)
+      // invite.x = this.width / 2
+      // invite.y = this.height + 40
     } else {
 
-      const bg = PIXI.Sprite.from(this.#userInfo.headimage)
-      this.addChild(bg)
-      const name = new PIXI.Text(this.#userInfo.nickName, {
+      const avatar = PIXI.Sprite.from(this._userInfo.headimage)
+      const name = new PIXI.Text(this._userInfo.nickName, {
         fontFamily: wx.$store.font,
         fontSize: 12,
         fill: "black",
       });
       
-      this.addChild(name)
+      this.addChild(avatar, name)
 
-      const score = new PIXI.Text(String(this.#score), {
+      const score = new PIXI.Text(String(this._score), {
         fontFamily: wx.$store.font,
         fontSize: 12,
         fill: "black",

@@ -7,7 +7,7 @@ declare const CLOUD_ID: string
 declare const pixiUtil: PixiUtil
 
 interface PixiUtil {
-  genSprite: (name: string) => any
+  genSprite: (name: string) => PIXI.Sprite
   genMask: () => any
   getTexture: (name: any) => any
   imgList: {[string]: string}

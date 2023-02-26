@@ -46,9 +46,9 @@ export default {
     this.container.addChild(text);
 
     Object.entries(pixiUtil.imgList).forEach(([k, v]) => loader.add(k, v));
-    wx.showLoading({
-      title: '加载中',
-    });
+    // wx.showLoading({
+    //   title: '加载中',
+    // });
     
     await Promise.all([
       this.load(),
@@ -60,7 +60,7 @@ export default {
       // Promise.all([
       //   { key: 'coutdown', src: 'static/sounds/coutdown.mp3' },
       //   { key: 'coutdown_end', src: 'static/sounds/coutdown_end.mp3' },
-      //   { key: 'tap', src: 'static/sounds/jump.mp3' },
+      //   { key: 'pointerdown', src: 'static/sounds/jump.mp3' },
       //   { key: 'score', src: 'static/sounds/score.mp3' },
       //   { key: 'shielding', src: 'static/sounds/shielding.mp3' },
       //   { key: 'fail', src: 'static/sounds/fail.mp3' }
@@ -120,6 +120,6 @@ export default {
     wx.$store.userInfo.openId = wx.$store.openId;
     wx.$open.postMessage('setSelfInfo', JSON.stringify(wx.$store.userInfo));
     this.hide();
-    monitor.emit('scene:go', 'room');
+    monitor.emit('scene:go', 'home');
   }
 };

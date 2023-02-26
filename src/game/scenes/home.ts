@@ -75,7 +75,7 @@ export default {
     // this.container.addChild(guide);
 
     // guide.interactive = true;
-    // guide.once('tap', (e) => {
+    // guide.once('pointerdown', (e) => {
     //   this.hide();
     //   monitor.emit('scene:go', 'room', {
     //     guide: true
@@ -89,7 +89,7 @@ export default {
     // this.container.addChild(toolInfo);
 
     // toolInfo.interactive = true;
-    // toolInfo.on('tap', (e) => {
+    // toolInfo.on('pointerdown', (e) => {
     //   wx.showModal({
     //     title: '提示',
     //     content: '敬请期待...',
@@ -104,7 +104,7 @@ export default {
     // musicIcon.y = start.y - 150;
     // this.container.addChild(musicIcon);
     // musicIcon.interactive = true;
-    // musicIcon.on('tap', (e) => {
+    // musicIcon.on('pointerdown', (e) => {
     //   monitor.emit('muted:bgm', !wx.$audio.muted.bgm);
     //   musicIcon.texture = pixiUtil.getTexture(wx.$audio.muted.bgm ? 'btn_music_close' : 'btn_music');
     // });

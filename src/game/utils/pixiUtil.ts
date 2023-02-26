@@ -16,8 +16,8 @@ const pixiUtil = {
     imgList: {
         'open': 'static/textures/open.png',
         'logo': 'static/textures/logo.png',
-        'btn_start': 'static/textures/btn_start.png',
-        'btn_guide': 'static/textures/btn_guide.png',
+        // 'btn_start': 'static/textures/btn_start.png',
+        // 'btn_guide': 'static/textures/btn_guide.png',
         'menu': 'static/textures/menu.png',
         'inviteUser': 'static/textures/inviteUser.png',
         'quick_start': 'static/textures/quick_start.png',
@@ -29,6 +29,7 @@ const pixiUtil = {
         'shuaxin': 'static/textures/shuaxin.png',
         'xiangpi': 'static/textures/xiangpi.png',
         'xiangpica': 'static/textures/xiangpica.png',
+        'room_bg': 'static/textures/room_bg.png',
         
         // 'barrier': 'static/textures/barrier.png',
         // 'guide': 'static/textures/guide.png',
@@ -55,7 +56,7 @@ const pixiUtil = {
         // 'tip_star': 'static/textures/tip_star.png',
         // 'tip_sure': 'static/textures/tip_sure.png',
         // 'tip_more': 'static/textures/tip_more.png',
-        'btn_tool_info': 'static/textures/btn_tool_info.png'
+        // 'btn_tool_info': 'static/textures/btn_tool_info.png'
     }
 };
 

@@ -5,9 +5,15 @@ import Menu from '../base/menu';
 import Input from '../base/input';
 
 export default {
-  show(opt = {}) {
+  type: '',
+  gameServerManager: null,
+  room: null,
+
+  show(opt: {type?: string} = {}) {
     console.log(opt)
+    this.type = opt.type
     this.init();
+    this.createRoom()
     monitor.emit('scene:show', 'room');
   },
   hide() {
@@ -20,51 +26,40 @@ export default {
     this.container = createContainer();
     stage.addChild(this.container);
 
-    const bg = pixiUtil.genSprite('bg');
+    const bg = pixiUtil.genSprite('room_bg');
     bg.width = screen.width;
     bg.height = screen.height;
     this.container.addChild(bg);
 
     // 菜单
-    const menuBtn = pixiUtil.genSprite('menu');
-    menuBtn.interactive = true;
-    menuBtn.x = 20;
-    menuBtn.y = 20;
-    menuBtn.width = 50;
-    menuBtn.height = 50;
-    this.container.addChild(menuBtn);
-    let isOpen = false
-    let menuList
-    menuBtn.on('tap', (e) => {
-      if (isOpen) {
-        this.container.removeChild(menuList)
-        isOpen = !isOpen
-        return
+    const menu = new Menu({
+      menus: [
+        {text: '退出', key: 'exit'},
+        {text: '关闭', key: 'close'}
+      ]
+    })
+    
+    monitor.on('menu:click', (m) => {
+      if (m.key == 'exit') {
+        this.hide()
+        monitor.emit('scene:go', 'home');
       }
-      menuList = new Menu({
-        menus: [
-          {
-            text: '关闭',
-            key: 'close'
-          }
-        ]
-      })
-      menuList.on('tap', (e) => {
-        console.log(e);
-      })
-      this.container.addChild(menuList)
-      isOpen = true
-      
-    });
+    })
+    this.container.addChild(menu)
   
     // 输入框
     const input = new Input({
       width: screen.width,
-      height: 40,
+      height: 100,
+      x: 0,
+      y: screen.height - 100
     })
     this.container.addChild(input)
+    
     wx.onKeyboardConfirm(() => {
       // send api
+      console.log(input.value)
+      wx.hideKeyboard()
       input.value = ''
     })
 
@@ -74,11 +69,10 @@ export default {
       width: screen.width,
       height: screen.height * 3 / 7
     })
-    draw.y = 100
    
     this.container.addChild(draw)
 
-    // 
+    
     for (let idx = 0; idx < 6; idx++) {// 邀请
       const player = new Player({});
       player.x = (screen.width / 6) * idx + 30
@@ -88,6 +82,28 @@ export default {
       // player.anchor.set(0.5, 0.5);
       this.container.addChild(player)
     }
+  },
+  async createRoom() {
+    const gameServerManager = wx.getGameServerManager()
+    this.gameServerManager = gameServerManager
+    debugger
+    const room = await gameServerManager.createRoom({
+      maxMemberNum: 6,
+      startPercent: 80,
+      needUserInfo: 'true',
+      gameLastTime: 3600,
+    })
+    this.room = room
+    console.log(room, 'room')
+    // gameServerManager.startGame()
+
+    gameServerManager.onRoomInfoChange((res) => {
+      console.log(res)
+      // roomState
+    })
+    gameServerManager.onGameStart(() => {
+      // this.select()
+    })
   },
   update() {
     if (!this.showRanking) {
